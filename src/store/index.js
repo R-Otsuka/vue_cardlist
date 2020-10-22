@@ -3,13 +3,65 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+//ローカルストレージに保存したリストを取得する
+const savedLists = localStorage.getItem('trello-lists')
+
+//storeインスタンスを定義して最終行でimportしてmain.jsで拾う形
+const store = new Vuex.Store({
+  //？？？
   state: {
+    // 保存があればparseして使用（json状態のものをオブジェクトに変換してる)、なければ雛形を作成
+    lists: savedLists ? JSON.parse(savedLists): [
+      {
+        title: 'Backlog',
+        cards: [
+          { body: 'English' },
+          { body: 'Mathematics' },
+        ]
+      },
+      {
+        title: 'Todo',
+        cards: [
+          { body: 'Science' }
+        ]
+      },
+      {
+        title: 'Doing',
+        cards: []
+      }
+    ],
   },
+  //定義,同期的でなければならない
   mutations: {
+    addlist(state, payload) {
+      state.lists.push({ title: payload.title, cards:[] })
+    },
+    removelist(state, payload) {
+      state.lists.splice(payload.listIndex, 1)
+    },
   },
+  //commit用、コンポーネント操作はここで行うらしい...
+  //actionsは第一引数にcontextというストアインスタンスのメソッドやプロパティを呼び出せるオブジェクトを受け取ることができます。
+  //ここで実行第一引数はmutationsで定義した関数を指す。
   actions: {
+    addlist(context, payload) {
+      context.commit('addlist', payload)
+    },
+    removelist(context, payload) {
+      context.commit('removelist', payload)
+    },
   },
-  modules: {
+  // modules: {
+    //本来はこの状態管理ファイルを分割した際に、それらをimportするために使う。今回は単一ファイルなので不要
+  // }
+
+  getters: {
   }
 })
+
+//データの状態を更新後にlocalStorageへデータの状態を保存しています
+store.subscribe((mutation, state) => {
+  localStorage.setItem('trello-lists', JSON.stringify(state.lists))
+})
+
+export default store
