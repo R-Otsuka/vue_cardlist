@@ -6,21 +6,33 @@
       <div class="deletelist" @click="removeList">
         X
       </div>
-      <card-add :listIndex="listIndex" />
     </div>
+    <Card v-for="(item,index) in cards"
+      :key="item.id"
+      :body="item.body"
+      :listIndex="listIndex"
+      :cardIndex="index"
+    />
+    <card-add :listIndex="listIndex" />
   </div>
 </template>
 
 <script>
 import CardAdd from './CardAdd'
+import Card from './Card'
 export default {
   components: {
-    CardAdd
+    CardAdd,
+    Card,
   },
   props: {
     title: {
       type:String,
       required:true
+    },
+    cards: {
+      type: Array,
+      required: true
     },
     listIndex: {
       type:Number,
@@ -33,9 +45,9 @@ export default {
         this.$store.dispatch('removelist',{listIndex: this.listIndex})
       }
     },
-  }
+  },
 }
 </script>
 
-<style lang="css" scoped>
+<style>
 </style>

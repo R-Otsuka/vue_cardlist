@@ -39,6 +39,14 @@ const store = new Vuex.Store({
     removelist(state, payload) {
       state.lists.splice(payload.listIndex, 1)
     },
+    removeCardFromList(state, payload) {
+      console.log("test")
+      console.log(state.lists[payload.listIndex]["cards"])
+      state.lists[payload.listIndex]["cards"].splice(payload.cardIndex, 1)
+    },
+    addCardToList(state, payload) {
+      state.lists[payload.listIndex].cards.push({ body: payload.body })
+    },
   },
   //commit用、コンポーネント操作はここで行うらしい...
   //actionsは第一引数にcontextというストアインスタンスのメソッドやプロパティを呼び出せるオブジェクトを受け取ることができます。
@@ -49,6 +57,12 @@ const store = new Vuex.Store({
     },
     removelist(context, payload) {
       context.commit('removelist', payload)
+    },
+    removeCardFromList(context, payload) {
+      context.commit('removeCardFromList', payload)
+    },
+    addCardToList(context, payload) {
+      context.commit('addCardToList', payload)
     },
   },
   // modules: {
