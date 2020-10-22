@@ -70,7 +70,14 @@ const store = new Vuex.Store({
   // }
 
   getters: {
-  }
+    totalCardCount(state) {
+      let count = 0
+      // content => count += content.cards.length
+      const map1 = state.lists.map((content) => count += content.cards.length)
+      console.log(map1)
+      return count
+    },
+  },
 })
 
 //データの状態を更新後にlocalStorageへデータの状態を保存しています

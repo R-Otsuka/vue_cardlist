@@ -8,6 +8,7 @@ Vue.config.productionTip = false
 
 new Vue({
   router,
+  //storeの登録、全てのコンポーネントから使用可能に
   store,
   render: h => h(App)
 }).$mount('#app')

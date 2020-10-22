@@ -5,7 +5,7 @@
       my Trello
     </header>
     <main>
-      <p class="info-line">All: 0 tasks</p>
+      <p class="info-line">All: {{ totalCardCount }} tasks</p>
       <div class="list-index">
         <!-- listsをループしてlistコンポーネントを量産してる -->
         <!-- listに渡す値を指定(ループ内で差をつける)、listsはcomputedでstoreから取得 -->
@@ -36,6 +36,9 @@ export default {
     ...mapState([
       'lists'
     ]),
+    totalCardCount(){
+      return this.$store.getters.totalCardCount
+    },
   },
 }
 </script>
